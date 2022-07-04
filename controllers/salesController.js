@@ -1,4 +1,5 @@
 const salesService = require('../services/salesService');
+const productService = require('../services/productService');
 
 const getSales = async (_req, res, next) => {
   try {
@@ -22,7 +23,18 @@ const getSalesById = async (req, res, next) => {
   }
 };
 
+const createSale = async (req, res, next) => {
+  try {
+    await Promise.all(req.body.map(({ productId }) => productService.getProductsById(productId)));
+    const id = await salesService.createSale(req.body);
+    return res.status(201).json({ id, itemsSold: req.body });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getSales,
   getSalesById,
+  createSale,
 };

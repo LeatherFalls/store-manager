@@ -11,6 +11,7 @@ const getProducts = async (_req, res, next) => {
 
 const getProductsById = async (req, res, next) => {
   const { id } = req.params;
+
   try {
     const result = await productService.getProductsById(id);
 

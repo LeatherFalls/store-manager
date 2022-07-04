@@ -14,4 +14,9 @@ salesRouter.get(
   salesController.getSalesById,
 );
 
+salesRouter.post(
+  '/',
+  salesController.createSale,
+);
+
 module.exports = salesRouter;
