@@ -1,7 +1,7 @@
 const connection = require('./connection');
 
 const getSales = async () => {
-  const [result] = await connection.execute(`
+  const [result] = await connection.query(`
     SELECT
       sp.sale_id AS saleId, 
       s.date,
@@ -17,7 +17,7 @@ const getSales = async () => {
 };
 
 const getSalesById = async (id) => {
-  const [result] = await connection.execute(`
+  const [result] = await connection.query(`
     SELECT
       s.date,
       sp.product_id AS productId,
@@ -40,7 +40,7 @@ const createSale = async () => {
 };
 
 const insertSale = async (id, { productId, productQuantity }) => {
-  await connection.execute(`
+  await connection.query(`
     INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity) VALUES (?, ?, ?);`,
     [id, productId, productQuantity]);

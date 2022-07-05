@@ -11,11 +11,11 @@ const getProductsById = async (id) => {
 };
 
 const createProducts = async (product) => {
-  const products = await productModel.getProducts();
+/*   const products = await productModel.getProducts();
 
   const checkIfExist = products.some(({ name }) => name === product.name);
 
-  if (checkIfExist) return false;
+  if (checkIfExist) return false; */
 
   const productCreated = await productModel.createProducts(product);
 

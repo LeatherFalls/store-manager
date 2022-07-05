@@ -24,6 +24,15 @@ const GET_BY_ID = {
   "name": "Martelo de Thor"
 };
 
+const POST = {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 1,
+  info: '',
+  serverStatus: 2,
+  warningStatus: 0
+}
+
 describe('Testa a chamada do getProducts, na camada model:', function () {
   before(() => {
     sinon.stub(connection, 'execute').resolves([GET, []]);
@@ -56,3 +65,19 @@ describe('Testa a chamada do getProductsById na camada model:', function () {
     expect(product).not.to.be.empty;
   })
 })
+
+describe('Testa a chamada do createProducts na camada model:', function () {
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([POST])
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  it('Testa se é retornado um objeto:', async function () {
+    const product = await productModel.createProducts();
+    expect(product).to.be.an('object');
+    expect(product).not.to.be.empty;
+  });
+});

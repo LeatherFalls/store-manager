@@ -5,8 +5,9 @@ const validateSchema = (schema) => (req, res, next) => {
     if (error) {
       const [status, message] = error.message.split('|');
       console.log(status);
-      return res.status(status).json({ message });
+      return res.status(parseInt(status, 10)).json({ message });
     }
+
     return next();
   } catch (error) {
     next(error);

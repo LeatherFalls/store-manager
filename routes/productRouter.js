@@ -1,10 +1,11 @@
 const express = require('express');
 
 const productController = require('../controllers/productController');
+const validateName = require('../middlewares/productValidation');
 
-const validateSchema = require('../middlewares/validateSchema');
+/* const validateSchema = require('../middlewares/validateSchema');
 
-const productsSchema = require('../schemas/productsSchema');
+const productsSchema = require('../schemas/productsSchema'); */
 
 const productRouter = express.Router();
 
@@ -20,7 +21,7 @@ productRouter.get(
 
 productRouter.post(
   '/',
-  validateSchema(productsSchema),
+  validateName,
   productController.createProducts,
 );
 
