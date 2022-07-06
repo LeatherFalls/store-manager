@@ -4,6 +4,7 @@ const productService = require('../services/productService');
 const getSales = async (_req, res, next) => {
   try {
     const result = await salesService.getSales();
+
     return res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -12,6 +13,7 @@ const getSales = async (_req, res, next) => {
 
 const getSalesById = async (req, res, next) => {
   const { id } = req.params;
+
   try {
     const result = await salesService.getSalesById(id);
 
@@ -24,10 +26,14 @@ const getSalesById = async (req, res, next) => {
 };
 
 const createSale = async (req, res, next) => {
+  const data = req.body;
+
   try {
-    await Promise.all(req.body.map(({ productId }) => productService.getProductsById(productId)));
-    const id = await salesService.createSale(req.body);
-    return res.status(201).json({ id, itemsSold: req.body });
+    await Promise.all(data.map(({ productId }) => productService.getProductsById(productId)));
+
+    const id = await salesService.createSale(data);
+
+    return res.status(201).json({ id, itemsSold: data });
   } catch (error) {
     next(error);
   }
