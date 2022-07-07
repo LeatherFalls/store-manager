@@ -24,6 +24,11 @@ const GET_BY_ID = {
   "name": "Martelo de Thor"
 };
 
+const CREATE_PRODUCTS = {
+  "id": 1,
+  "name": 'teste'
+}
+
 describe('Testa a chamada do getProducts na camada services', function () {
   before(() => {
     sinon.stub(productModel, 'getProducts').resolves(GET)
@@ -71,3 +76,19 @@ describe('Testa as condicionais da função getProductsById na camada services',
     expect(sale).to.be.false;
   })
 })
+
+describe('Testa a chamada do createProducts na camada services', function () {
+  before(() => {
+    sinon.stub(productModel, 'createProducts').resolves(CREATE_PRODUCTS)
+  });
+
+  after(() => {
+    productModel.createProducts.restore()
+  });
+
+  it('Testa se a função createProducts retorna um objeto', async function () {
+    const sale = await productService.createProducts({ name: 'teste' });
+    expect(sale).to.be.an('object');
+    expect(sale).not.to.be.empty;
+  })
+});

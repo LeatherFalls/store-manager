@@ -40,11 +40,11 @@ const createSale = async () => {
   return fixId;
 };
 
-const insertSale = async (id, { productId, productQuantity }) => {
+const insertSale = async (id, { productId, quantity }) => {
   await connection.query(`
     INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity) VALUES (?, ?, ?);`,
-    [id, productId, productQuantity]);
+    [id, productId, quantity]);
 };
 
 module.exports = {

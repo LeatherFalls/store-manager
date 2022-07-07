@@ -4,13 +4,26 @@ const { expect } = require('chai');
 const salesController = require('../../../controllers/salesController');
 const salesService = require('../../../services/salesService');
 
+const GET_SALES = [{
+  saleId: 1,
+  date: '2022-07-07T14:03:17.000Z',
+  productId: 1,
+  quantity: 5,
+}];
+
+const GET_BY_ID = [{
+  date: '2022-07-07T14:12:17.000Z',
+  productId: 3,
+  quantity: 15
+}]
+
 describe('Testa a chamada da função getSales na camada controller:', function () {
   let req = {}, res = {}, next = () => {};
   
   describe('Testa a função getSales em caso de sucesso:', function () {
     before(() => {
-      res.status = sinon.stub().resolves(res);
-      res.json = sinon.stub().resolves();
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
       sinon.stub(salesService, 'getSales').resolves([]);
     });
 
@@ -43,19 +56,19 @@ describe('Testa a chamada da função getSales na camada controller:', function 
 
     it('Testa se o erro é passado para o next:', async function () {
       await salesController.getSales(req, res, next);
-      expect(next.calledWith(sinon.match.error)).to.be.equal(true);
+      expect(next.calledWith(sinon.match(error))).to.be.equal(true);
     });
   });
 });
 
 describe('Testa a chamada da função getSalesById na camada controller:', function () {
   let req = {}, res = {}, next = () => {};
-  req.params = { id: 1 };
-
+  
   describe('Testa a função getSalesById em caso de sucesso:', function () {
     before(() => {
-      res.status = sinon.stub().resolves(res);
-      res.json = sinon.stub().resolves();
+      req.params = { id: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
       sinon.stub(salesService, 'getSalesById').resolves([[]]);
     });
 
@@ -75,31 +88,23 @@ describe('Testa a chamada da função getSalesById na camada controller:', funct
   });
 
   describe('Testa a função getSalesById em caso de erro:', function () {
-    const error = Error({ message: 'Sale not found' });
+    const error = Error('Sale not found');
 
     before(() => {
-      res.status = sinon.stub()
-      next = sinon.stub().resolves();
-      sinon.stub(salesService, 'getSalesById').resolves(undefined);
+      req.params = { id: 1 }
+      res.status = sinon.stub();
+      res.json = sinon.stub();
+      next = sinon.stub().returns();
+      sinon.stub(salesService, 'getSalesById').throws(error);
     });
 
     after(() => {
       salesService.getSalesById.restore();
     });
 
-    it('Testa se retorna status 404:', async function () {
-      await salesController.getSalesById(req, res, next);
-      expect(res.status.calledWith(404)).to.be.equal(true);
-    });
-
-    it('Testa se res.json() é chamado passando uma mensagem de erro:', async function () {
-      expect(res.json.calledWith(error)).to.be.equal(true);
-      await salesController.getSalesById(req, res, next);
-    });
-
     it('Testa se o erro é passado para o next:', async function () {
       await salesController.getSalesById(req, res, next);
-      expect(next.calledWith(sinon.match.error)).to.be.equal(true);
+      expect(next.calledWith(sinon.match(error))).to.be.equal(true);
     });
   });
 });

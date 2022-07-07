@@ -49,7 +49,7 @@ describe('Testa a chamada do getSales na camada services:', function () {
 
   it('Testa se é retornado um array de objetos:', async function () {
     const sales = await salesService.getSales();
-    expect(seles).to.be.an('array');
+    expect(sales).to.be.an('array');
     expect(sales).not.to.be.empty;
     sales.forEach((sale) => expect(sale).to.be.an('object'));
   })
@@ -64,9 +64,9 @@ describe('Testa a chamada do getSalesById na camada services:', function () {
     salesModel.getSalesById.restore()
   });
 
-  it('Testa se é retornado um objeto:', async function () {
-    const sale = await salesService.getSalesById();
-    expect(sale).to.be.an('object');
+  it('Testa se é retornado um array:', async function () {
+    const sale = await salesService.getSalesById(1);
+    expect(sale).to.be.an('array');
     expect(sale).not.to.be.empty;
   })
 });
@@ -85,3 +85,19 @@ describe('Testa as condicionais da função getSalesById na camada services', fu
     expect(sale).to.be.false;
   })
 })
+
+describe('Testa a chamada da função createSale na camada services:', function () {
+  const saleId = 1
+  before(() => {
+    sinon.stub(salesModel, 'createSale').resolves(saleId)
+  });
+
+  after(() => {
+    salesModel.createSale.restore()
+  });
+
+  it('Testa se a função createSale retorna um id', async function () {
+    const sale = await salesService.createSale();
+    expect(sale).to.be.an('number');
+  })
+});

@@ -38,9 +38,17 @@ const GET_BY_ID = [
   }
 ];
 
+const MOCK_INSERT = {
+  id: 1,
+  sale: {
+    productId: 1,
+    quantity: 3
+  },
+};
+
 describe('Testa a chamada do getSales na camada model:', function () {
   before(() => {
-    sinon.stub(connection, 'execute').resolves([GET, []]);
+    sinon.stub(connection, 'execute').resolves(GET);
   });
 
   after(() => {
@@ -49,7 +57,7 @@ describe('Testa a chamada do getSales na camada model:', function () {
 
   it('Testa se é retornado um array de objetos:', async function () {
     const sales = await salesModel.getSales();
-    expect(seles).to.be.an('array');
+    expect(sales).to.be.an('array');
     expect(sales).not.to.be.empty;
     sales.forEach((sale) => expect(sale).to.be.an('object'));
   })
@@ -57,16 +65,47 @@ describe('Testa a chamada do getSales na camada model:', function () {
 
 describe('Testa a chamada do getSalesById na camada model:', function () {
   before(() => {
-    sinon.stub(connection, 'execute').resolves([[GET_BY_ID], []]);
+    sinon.stub(connection, 'execute').resolves([GET_BY_ID]);
   });
 
   after(() => {
     connection.execute.restore();
   });
 
-  it('Testa se é retornado um objeto:', async function () {
-    const sale = await salesModel.getSalesById();
-    expect(sale).to.be.an('object');
+  it('Testa se é retornado um array:', async function () {
+    const sale = await salesModel.getSalesById(1);
+    expect(sale).to.be.an('array');
     expect(sale).not.to.be.empty;
   })
 })
+
+describe('Testa a chamada do createSale na camada model:', function () {
+  before(() => {
+    sinon.stub(connection, 'execute').resolves([4]);
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  it('Testa se é retornado um id:', async function () {
+    const create = await salesModel.createSale();
+    expect(create).to.be.an('number');
+    expect(create).not.to.be.null;
+  });
+});
+
+/* describe('Testa a chamada do insertSale na camada model:', function () {
+  before(() => {
+    sinon.stub(connection, 'execute').resolves();
+  });
+
+  after(() => {
+    connection.execute.restore();
+  });
+
+  it('Testa se é retornado um id:', async function () {
+    await salesModel.insertSale();
+    expect(connection.query.called).to.be.equal(true);
+  });
+}); */
