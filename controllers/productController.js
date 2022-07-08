@@ -44,11 +44,26 @@ const updateProducts = async (req, res, next) => {
   try {
     const product = await productModel.getProductsById(id);
 
-    const updatedProduct = await productService.updateProducts({ id: parseId, name });
-    
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
+    const updatedProduct = await productService.updateProducts({ id: parseId, name });
+
     return res.status(200).json(updatedProduct);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteProducts = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const product = await productModel.getProductsById(id);
+
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    const deleteProduct = productService.deleteProducts(id);
+
+    return res.status(204).json(deleteProduct);
   } catch (error) {
     next(error);
   }
@@ -59,4 +74,5 @@ module.exports = {
   getProductsById,
   createProducts,
   updateProducts,
+  deleteProducts,
 };
