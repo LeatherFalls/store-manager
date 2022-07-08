@@ -18,8 +18,11 @@ const createSale = async () => {
   return saleId;
 };
 
+const deleteSale = async (id) => salesModel.deleteSale(id);
+
 module.exports = {
   getSales,
   getSalesById,
   createSale,
+  deleteSale,
 };

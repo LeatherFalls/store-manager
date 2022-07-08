@@ -1,4 +1,5 @@
 const salesService = require('../services/salesService');
+const salesModel = require('../models/salesModel');
 const productService = require('../services/productService');
 
 const getSales = async (_req, res, next) => {
@@ -39,8 +40,21 @@ const createSale = async (req, res, next) => {
   }
 };
 
+const deleteSale = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    await salesService.deleteSale(+id);
+
+    return res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getSales,
   getSalesById,
   createSale,
+  deleteSale,
 };

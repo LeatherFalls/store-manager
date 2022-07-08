@@ -55,9 +55,20 @@ const availableProducts = async (req, res, next) => {
   next();
 };
 
+const saleExistenceValidation = async (req, res, next) => {
+  const { id } = req.params;
+
+  const sale = await productModel.getProductsById(id);
+
+  if (!sale) return res.status(404).json({ message: 'Sale not found' });
+
+  next();
+};
+
 module.exports = {
   idValidation,
   quantityValidation,
   availableProduct,
   availableProducts,
+  saleExistenceValidation,
 };

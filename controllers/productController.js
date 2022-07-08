@@ -61,9 +61,9 @@ const deleteProducts = async (req, res, next) => {
 
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
-    const deleteProduct = productService.deleteProducts(id);
+    await productService.deleteProducts(id);
 
-    return res.status(204).json(deleteProduct);
+    return res.status(204).end();
   } catch (error) {
     next(error);
   }

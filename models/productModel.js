@@ -30,6 +30,7 @@ const createProducts = async (product) => {
 
 const updateProducts = async (product) => {
   const { id, name } = product;
+
   await connection.query(`
     UPDATE StoreManager.products
     SET name = ?
