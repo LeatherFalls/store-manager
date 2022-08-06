@@ -32,4 +32,9 @@ productRouter.delete(
   productController.deleteProducts,
 );
 
+/* productRouter.get(
+  '/search',
+  productController.searchByName,
+); */
+
 module.exports = productRouter;

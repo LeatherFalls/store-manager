@@ -27,18 +27,6 @@ const createSale = async () => {
 const updateSale = async (sale) => {
   const updatedSale = await salesModel.updateSale(sale);
 
-/*   const { saleId, productId, quantity } = updatedSale;
-
-  const updatedResult = {
-    saleId,
-    itemsUpdated: [
-      {
-        productId,
-        quantity,
-      },
-    ],
-  }; */
-
   return updatedSale;
 };
 

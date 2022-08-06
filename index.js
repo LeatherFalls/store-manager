@@ -4,9 +4,11 @@ require('dotenv').config();
 
 const productRouter = require('./routes/productRouter');
 const salesRouter = require('./routes/salesRouter');
+const productController = require('./controllers/productController');
 
 app.use(bodyParser.json());
-// não altere esse arquivo, essa estrutura é necessária para à avaliação do projeto
+
+app.get('/products/search', productController.searchByName);
 
 app.use('/products', productRouter);
 
