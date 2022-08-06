@@ -36,6 +36,7 @@ const updateProducts = async (product) => {
     SET name = ?
     WHERE id = ?`,
     [id, name]);
+
   return product;
 };
 

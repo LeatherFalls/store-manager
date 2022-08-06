@@ -24,6 +24,16 @@ salesRouter.get(
   salesController.getSalesById,
 );
 
+salesRouter.put(
+  '/:id',
+  salesValidation.idValidation,
+  salesValidation.quantityValidation,
+  salesValidation.availableProduct,
+  salesValidation.availableProducts,
+  salesValidation.saleExistenceValidation,
+  salesController.updateSale,
+);
+
 salesRouter.delete(
   '/:id',
   salesValidation.saleExistenceValidation,

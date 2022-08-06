@@ -1,5 +1,7 @@
 const productModel = require('../models/productModel');
 
+const salesService = require('../services/salesService');
+
 const idValidation = async (req, res, next) => {
   const data = req.body;
 
@@ -58,9 +60,9 @@ const availableProducts = async (req, res, next) => {
 const saleExistenceValidation = async (req, res, next) => {
   const { id } = req.params;
 
-  const sale = await productModel.getProductsById(id);
+  const sale = await salesService.getSaleProductById(id);
 
-  if (!sale) return res.status(404).json({ message: 'Sale not found' });
+  if (sale.length === 0) return res.status(404).json({ message: 'Sale not found' });
 
   next();
 };

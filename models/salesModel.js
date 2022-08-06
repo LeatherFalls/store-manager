@@ -27,6 +27,16 @@ const getSalesById = async (id) => {
     ON sp.sale_id = s.id
     WHERE sp.sale_id = ?;`,
     [id]);
+  
+  return result;
+};
+
+const getSaleProductById = async (id) => {
+  const [result] = await connection.query(`
+    SELECT sale_id FROM StoreManager.sales_products WHERE sale_id = ?
+  `, [id]);
+
+  console.log(result);
 
   return result;
 };
@@ -47,6 +57,16 @@ const insertSale = async (id, { productId, quantity }) => {
     [id, productId, quantity]);
 };
 
+const updateSale = async (sale) => {
+  const { quantity, saleId, productId } = sale;
+  await connection.query(`
+    UPDATE StoreManager.sales_products
+    SET quantity = ?
+    WHERE sale_id = ? AND product_id = ?`,
+    [quantity, saleId, productId]);
+  return sale;
+};
+
 const deleteSale = async (id) => {
   await connection.query(`
     DELETE FROM StoreManager.sales
@@ -57,7 +77,9 @@ const deleteSale = async (id) => {
 module.exports = {
   getSales,
   getSalesById,
+  getSaleProductById,
   createSale,
   insertSale,
   deleteSale,
+  updateSale,
 };
